@@ -48,10 +48,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 <dt><a class="samples" href="plugins/wysiwygarea/fullpage.html">Full page support</a></dt>
 <dd>CKEditor inserted with a JavaScript call and used to edit the whole page from &lt;html&gt; to &lt;/html&gt;.</dd>
-
-<dt><a class="samples" href="plugins/statistics/statistics.html">Statistics plugin</a></dt>
-<dd>Using the Statistics plugin to draw a circle chart inside the editor.</dd>
-
 </dl>
 		</div>
 		<div class="twoColumnsRight">

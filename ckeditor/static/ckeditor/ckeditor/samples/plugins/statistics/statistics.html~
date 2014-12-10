@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Using Statistics plugin &mdash; CKEditor Sample</title>
+	<script src="../../../ckeditor.js"></script>
+	<link rel="stylesheet" href="../../../samples/sample.css">
+	<meta name="ckeditor-sample-name" content="Statistics plugin">
+	<meta name="ckeditor-sample-group" content="Plugins">
+	<meta name="ckeditor-sample-description" content="Using the Magicline plugin to access difficult focus spaces.">
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Using Statistics plugin
+	</h1>
+	<div class="description">
+		<p>
+			This sample shows the advantages of <strong>Statistics</strong> plugin
+			which is to enhance the editing process. Thanks to this plugin,
+			a circliful chart can be integrated into the editor, which gives an awesome
+			representation of simple statistics data.
+		</p>
+	</div>
+	<div>
+		<label for="editor">
+			Editor:
+		</label>
+		<div class="description">
+			<p>
+				This editor uses a default <strong>Statistics</strong> setup.
+			</p>
+		</div>
+		<textarea cols="80" id="editor" name="editor" rows="10">
+			
+		</textarea>
+		<script>
+
+			// This call can be placed at any point after the
+			// <textarea>, or inside a <head><script> in a
+			// window.onload event handler.
+
+			CKEDITOR.replace( 'editor', {
+				extraPlugins : 'charts',
+				//config.skin = 'bootstrapck';
+			    toolbar : [ [ 'Source', 'Preview', 'Templates', 'Charts']	],
+			} );
+
+		</script>
+
+	</div>
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2014, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>
