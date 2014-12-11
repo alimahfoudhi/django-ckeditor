@@ -37,6 +37,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<textarea cols="80" id="editor" name="editor" rows="10">
 			
 		</textarea>
+
 		<script>
 
 			// This call can be placed at any point after the
@@ -45,12 +46,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 			CKEDITOR.replace( 'editor', {
 				extraPlugins : 'statistics',
-				//config.skin = 'bootstrapck';
-			    toolbar : [ [ 'Source', 'Preview', 'Templates', 'Statistics']	],
+				templates_replaceContent : 'false',
+				skin : 'office2013',
+				allowedContent: true,
+				toolbar : [ 
+					[ 'Source', 'Preview', 'Templates', 'Format'],
+					[ 'Statistics']
+					],
 			} );
 
 		</script>
-
 	</div>
 	<div id="footer">
 		<hr>

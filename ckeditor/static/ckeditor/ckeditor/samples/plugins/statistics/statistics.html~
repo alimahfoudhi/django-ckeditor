@@ -46,7 +46,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			CKEDITOR.replace( 'editor', {
 				extraPlugins : 'charts',
 				//config.skin = 'bootstrapck';
-			    toolbar : [ [ 'Source', 'Preview', 'Templates', 'Charts']	],
+				toolbar : [ [ 'Source', 'Preview', 'Templates', 'Charts']	],
 			} );
 
 		</script>
