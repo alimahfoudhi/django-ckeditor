@@ -45,13 +45,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			// window.onload event handler.
 
 			CKEDITOR.replace( 'editor', {
-				extraPlugins : 'statistics',
+				//extraPlugins : 'statistics,chart',
+				extraPlugins : 'statistics,chart',
 				templates_replaceContent : 'false',
 				skin : 'office2013',
 				allowedContent: true,
 				toolbar : [ 
 					[ 'Source', 'Preview', 'Templates', 'Format'],
-					[ 'Statistics']
+					[ 'Statistics', 'Chart']
 					],
 			} );
 
