@@ -115,13 +115,19 @@ if ( typeof document.addEventListener !== 'undefined' )
 			// Render Pie chart and legend.
 			else if ( chartType == 'pie' ) {
 				legend.innerHTML = chart.Pie( values, {
-					animateRotate: false
+					animateRotate: true
 				} ).generateLegend();
 			}
 			// Render Doughnut chart and legend.
-			else {
+			else if( chartType == 'doughnut' ) {
 				legend.innerHTML = chart.Doughnut( values, {
-					animateRotate: false
+					animateRotate: true
+				} ).generateLegend();
+			}
+			// Render Percentage chart and legend.
+			else {
+				legend.innerHTML = chart.Percentage( values.slice(0,1), {
+					animateRotate: true
 				} ).generateLegend();
 			}
 			// ########## RENDER CHART END ##########

@@ -1629,6 +1629,11 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 				'.cke_widget_inline{' +
 					'display:inline-block' +
 				'}' +
+				/*! Added by Mohamed Ali AFFES*/
+				'.cke_widget_element{' +
+					'width:20%;' +
+				'}' +
+				/*! End - Added by Mohamed Ali AFFES*/
 				'.cke_widget_wrapper:hover>.cke_widget_element{' +
 					'outline:2px solid yellow;' +
 					'cursor:default' +
@@ -4969,391 +4974,10 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 	Widget.nestedEditable = NestedEditable;
 } )();
 
-/**
- * An event fired when a widget definition is registered by the {@link CKEDITOR.plugins.widget.repository#add} method.
- * It is possible to modify the definition being registered.
- *
- * @event widgetDefinition
- * @member CKEDITOR.editor
- * @param {CKEDITOR.plugins.widget.definition} data Widget definition.
- */
-
-/**
- * This is an abstract class that describes the definition of a widget.
- * It is a type of {@link CKEDITOR.plugins.widget.repository#add} method's second argument.
- *
- * Widget instances inherit from registered widget definitions, although not in a prototypal way.
- * They are simply extended with corresponding widget definitions. Note that not all properties of
- * the widget definition become properties of a widget. Some, like {@link #data} or {@link #edit}, become
- * widget's events listeners.
- *
- * @class CKEDITOR.plugins.widget.definition
- * @abstract
- * @mixins CKEDITOR.feature
- */
-
-/**
- * Widget definition name. It is automatically set when the definition is
- * {@link CKEDITOR.plugins.widget.repository#add registered}.
- *
- * @property {String} name
- */
-
-/**
- * The method executed while initializing a widget, after a widget instance
- * is created, but before it is ready. It is executed before the first
- * {@link CKEDITOR.plugins.widget#event-data} is fired so it is common to
- * use the `init` method to populate widget data with information loaded from
- * the DOM, like for exmaple:
- *
- *		init: function() {
- *			this.setData( 'width', this.element.getStyle( 'width' ) );
- *
- *			if ( this.parts.caption.getStyle( 'display' ) != 'none' )
- *				this.setData( 'showCaption', true );
- *		}
- *
- * @property {Function} init
- */
-
-/**
- * The function to be used to upcast an element to this widget or a
- * comma-separated list of upcast methods from the {@link #upcasts} object.
- *
- * The upcast function **is not** executed in the widget context (because the widget
- * does not exist yet) and two arguments are passed:
- *
- * * `element` ({@link CKEDITOR.htmlParser.element}) &ndash; The element to be checked.
- * * `data` (`Object`) &ndash; The object which can be extended with data which will then be passed to the widget.
- *
- * An element will be upcasted if a function returned `true` or an instance of
- * a {@link CKEDITOR.htmlParser.element} if upcasting meant DOM structure changes
- * (in this case the widget will be initialized on the returned element).
- *
- * @property {String/Function} upcast
- */
-
-/**
- * The object containing functions which can be used to upcast this widget.
- * Only those pointed by the {@link #upcast} property will be used.
- *
- * In most cases it is appropriate to use {@link #upcast} directly,
- * because majority of widgets need just one method.
- * However, in some cases the widget author may want to expose more than one variant
- * and then this property may be used.
- *
- *		upcasts: {
- *			// This function may upcast only figure elements.
- *			figure: function() {
- *				// ...
- *			},
- *			// This function may upcast only image elements.
- *			image: function() {
- *				// ...
- *			},
- *			// More variants...
- *		}
- *
- *		// Then, widget user may choose which upcast methods will be enabled.
- *		editor.on( 'widgetDefinition', function( evt ) {
- *			if ( evt.data.name == 'image' )
- * 				evt.data.upcast = 'figure,image'; // Use both methods.
- *		} );
- *
- * @property {Object} upcasts
- */
-
-/**
- * The function to be used to downcast this widget or
- * a name of the downcast option from the {@link #downcasts} object.
- *
- * The downcast funciton will be executed in the {@link CKEDITOR.plugins.widget} context
- * and with `widgetElement` ({@link CKEDITOR.htmlParser.element}) argument which is
- * the widget's main element.
- *
- * The function may return an instance of the {@link CKEDITOR.htmlParser.node} class if the widget
- * needs to be downcasted to a different node than the widget's main element.
- *
- * @property {String/Function} downcast
- */
-
-/**
- * The object containing functions which can be used to downcast this widget.
- * Only the one pointed by the {@link #downcast} property will be used.
- *
- * In most cases it is appropriate to use {@link #downcast} directly,
- * because majority of widgets have just one variant of downcasting (or none at all).
- * However, in some cases the widget author may want to expose more than one variant
- * and then this property may be used.
- *
- *		downcasts: {
- *			// This downcast may transform the widget into the figure element.
- *			figure: function() {
- *				// ...
- *			},
- *			// This downcast may transform the widget into the image element with data-* attributes.
- *			image: function() {
- *				// ...
- *			}
- *		}
- *
- *		// Then, the widget user may choose one of the downcast options when setting up his editor.
- *		editor.on( 'widgetDefinition', function( evt ) {
- *			if ( evt.data.name == 'image' )
- * 				evt.data.downcast = 'figure';
- *		} );
- *
- * @property downcasts
- */
-
-/**
- * If set, it will be added as the {@link CKEDITOR.plugins.widget#event-edit} event listener.
- * This means that it will be executed when a widget is being edited.
- * See the {@link CKEDITOR.plugins.widget#method-edit} method.
- *
- * @property {Function} edit
- */
-
-/**
- * If set, it will be added as the {@link CKEDITOR.plugins.widget#event-data} event listener.
- * This means that it will be executed every time the {@link CKEDITOR.plugins.widget#property-data widget data} changes.
- *
- * @property {Function} data
- */
-
-/**
- * The method to be executed when the widget's command is executed in order to insert a new widget
- * (widget of this type is not focused). If not defined, then the default action will be
- * performed which means that:
- *
- * * An instance of the widget will be created in a detached {@link CKEDITOR.dom.documentFragment document fragment},
- * * The {@link CKEDITOR.plugins.widget#method-edit} method will be called to trigger widget editing,
- * * The widget element will be inserted into DOM.
- *
- * @property {Function} insert
- */
-
-/**
- * The name of a dialog window which will be opened on {@link CKEDITOR.plugins.widget#method-edit}.
- * If not defined, then the {@link CKEDITOR.plugins.widget#method-edit} method will not perform any action and
- * widget's command will insert a new widget without opening a dialog window first.
- *
- * @property {String} dialog
- */
-
-/**
- * The template which will be used to create a new widget element (when the widget's command is executed).
- * This string is populated with {@link #defaults default values} by using the {@link CKEDITOR.template} format.
- * Therefore it has to be a valid {@link CKEDITOR.template} argument.
- *
- * @property {String} template
- */
-
-/**
- * The data object which will be used to populate the data of a newly created widget.
- * See {@link CKEDITOR.plugins.widget#property-data}.
- *
- *		defaults: {
- *			showCaption: true,
- *			align: 'none'
- *		}
- *
- * @property defaults
- */
-
-/**
- * An object containing definitions of widget components (part name => CSS selector).
- *
- *		parts: {
- *			image: 'img',
- *			caption: 'div.caption'
- *		}
- *
- * @property parts
- */
-
-/**
- * An object containing definitions of nested editables (editable name => {@link CKEDITOR.plugins.widget.nestedEditable.definition}).
- *
- *		editables: {
- *			header: 'h1',
- *			content: {
- *				selector: 'div.content',
- *				allowedContent: 'p strong em; a[!href]'
- *			}
- *		}
- *
- * @property editables
- */
-
-/**
- * Widget name displayed in elements path.
- *
- * @property {String} pathName
- */
-
-/**
- * If set to `true`, the widget's element will be covered with a transparent mask.
- * This will prevent its content from being clickable, which matters in case
- * of special elements like embedded Flash or iframes that generate a separate "context".
- *
- * @property {Boolean} mask
- */
-
-/**
- * If set to `true/false`, it will force the widget to be either an inline or a block widget.
- * If not set, the widget type will be determined from the widget element.
- *
- * Widget type influences whether a block (`div`) or an inline (`span`) element is used
- * for the wrapper.
- *
- * @property {Boolean} inline
- */
-
-/**
- * The label for the widget toolbar button.
- *
- *		editor.widgets.add( 'simplebox', {
- *			button: 'Create a simple box'
- *		} );
- *
- *		editor.widgets.add( 'simplebox', {
- *			button: editor.lang.simplebox.title
- *		} );
- *
- * @property {String} button
- */
-
-/**
- * Whether widget should be draggable. Defaults to `true`.
- * If set to `false` drag handler will not be displayed when hovering widget.
- *
- * @property {Boolean} draggable
- */
-
-/**
- * Names of element(s) (separated by spaces) for which the {@link CKEDITOR.filter} should allow classes
- * defined in the widget styles. For example if your widget is upcasted from a simple `<div>`
- * element, then in order to make it styleable you can set:
- *
- *		editor.widgets.add( 'customWidget', {
- *			upcast: function( element ) {
- *				return element.name == 'div';
- *			},
- *
- *			// ...
- *
- *			styleableElements: 'div'
- *		} );
- *
- * Then, when the following style is defined:
- *
- *		{
- *			name: 'Thick border', type: 'widget', widget: 'customWidget',
- *			attributes: { 'class': 'thickBorder' }
- *		}
- *
- * a rule allowing the `thickBorder` class for `div` elements will be registered in the {@link CKEDITOR.filter}.
- *
- * If you need to have more freedom when transforming widget style to allowed content rules,
- * you can use the {@link #styleToAllowedContentRules} callback.
- *
- * @since 4.4
- * @property {String} styleableElements
- */
-
-/**
- * Function transforming custom widget's {@link CKEDITOR.style} instance into
- * {@link CKEDITOR.filter.allowedContentRules}. It may be used when a static
- * {@link #styleableElements} property is not enough to inform the {@link CKEDITOR.filter}
- * what HTML features should be enabled when allowing the given style.
- *
- * In most cases, when style's classes just have to be added to element name(s) used by
- * the widget element, it is recommended to use simpler {@link #styleableElements} property.
- *
- * In order to get parsed classes from the style definition you can use
- * {@link CKEDITOR.style.customHandlers.widget#getClassesArray}.
- *
- * For example, if you want to use the [object format of allowed content rules](#!/guide/dev_allowed_content_rules-section-object-format),
- * to specify `match` validator, your implementation could look like this:
- *
- *		editor.widgets.add( 'customWidget', {
- *			// ...
- *
- *			styleToAllowedContentRules: funciton( style ) {
- *				// Retrieve classes defined in the style.
- *				var classes = style.getClassesArray();
- *
- *				// Do something crazy - for example return allowed content rules in object format,
- *				// with custom match property and propertiesOnly flag.
- *				return {
- *					h1: {
- *						match: isWidgetElement,
- *						propertiesOnly: true,
- *						classes: classes
- *					}
- *				};
- *			}
- *		} );
- *
- * @since 4.4
- * @property {Function} styleToAllowedContentRules
- * @param {CKEDITOR.style.customHandlers.widget} style The style to be transformed.
- * @returns {CKEDITOR.filter.allowedContentRules}
- */
-
-/**
- * This is an abstract class that describes the definition of a widget's nested editable.
- * It is a type of values in the {@link CKEDITOR.plugins.widget.definition#editables} object.
- *
- * In the simplest case the definition is a string which is a CSS selector used to
- * find an element that will become a nested editable inside the widget. Note that
- * the widget element can be a nested editable, too.
- *
- * In the more advanced case a definition is an object with a required `selector` property.
- *
- *		editables: {
- *			header: 'h1',
- *			content: {
- *				selector: 'div.content',
- *				allowedContent: 'p strong em; a[!href]'
- *			}
- *		}
- *
- * @class CKEDITOR.plugins.widget.nestedEditable.definition
- * @abstract
- */
-
-/**
- * The CSS selector used to find an element which will become a nested editable.
- *
- * @property {String} selector
- */
-
-/**
- * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
- * which will be used to limit the content allowed in this nested editable.
- * This option is similar to {@link CKEDITOR.config#allowedContent} and one can
- * use it to limit the editor features available in the nested editable.
- *
- * @property {CKEDITOR.filter.allowedContentRules} allowedContent
- */
-
-/**
- * Nested editable name displayed in elements path.
- *
- * @property {String} pathName
- */
 /*! End - Added by Mohamed Ali AFFES */
 
 
 /*! Added by Mohamed Ali AFFES */
-
-/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
- */
-
 /**
  * @fileOverview Charts for CKEditor using Chart.js.
  */
@@ -5378,8 +5002,12 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 			if ( typeof Chart  === 'undefined' ) {
 				// Chart library is loaded asynchronously, so we can draw anything only once it's loaded.
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/chart.min.js' ), function() {
+					/*Loading Mohamed Ali's percentage extension*/
+					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/percentage.js' ));
+					/*Drawing*/
 					plugin.drawCharts();
 				} );
+
 			}
 		},
 
@@ -5398,7 +5026,7 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 				data: ['#B33131', '#B66F2D', '#B6B330', '#71B232', '#33B22D', '#31B272', '#2DB5B5', '#3172B6', '#3232B6', '#6E31B2', '#B434AF', '#B53071']
 			};
 			// The number of rows in Edit Chart dialog window.
-			var inputRows = editor.config.chart_maxitems || 8;
+			var inputRows = editor.config.chart_maxitems || 5;
 
 			// Inject required CSS stylesheet to classic editors because the <iframe> needs it.
 			// Inline editors will ignore this, the developer is supposed to load chart.css directly on a page.
@@ -5441,6 +5069,7 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 								this.setValueOf( 'data', 'label' + j, widget.data.values[j].label );
 							}
 						}
+						this.setValueOf( 'data','description', widget.data.description  );
 					},
 					// Executed every time a dialog is closed (OK is pressed).
 					onOk : function( evt ) {
@@ -5458,6 +5087,7 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 						}
 						widget.setData( 'values', values );
 						widget.setData( 'chart', this.getValueOf( 'data', 'chart' ) );
+						widget.setData( 'description', this.getValueOf('data','description' ));
 					},
 					// Define elements in a dialog window.
 					contents: [
@@ -5470,12 +5100,13 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 									label: 'Chart type:',
 									labelLayout: 'horizontal',
 									labelStyle: 'display:block;padding: 0 6px;',
-									items: [ [ 'Bar', 'bar' ], [ 'Pie', 'pie'], [ 'Doughnut', 'doughnut' ] ],
-									'default': 'pie',
+									items: [ [ 'Percentage', 'percentage' ], [ 'Bar', 'bar' ], [ 'Pie', 'pie'], [ 'Doughnut', 'doughnut' ] ],
+									'default': 'percentage',
 									style: 'margin-bottom:10px',
 									setup: function( widget ) {
 										// Set radios to the correct value based on the widget type,
-										this.setValue( widget.data.chart );
+										this.setValue( widget.data.chart);
+
 									}
 								}
 							]
@@ -5521,6 +5152,20 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 							]
 					} );
 				}
+				dialog.contents[0].elements.push( {
+						
+								type : 'text',
+								id : 'description',
+								label : 'Description',
+								style: 'margin-top:10px',
+							//  validate : CKEDITOR.dialog.validate.notEmpty( 'The Description field cannot be empty.' ),
+								// Function to be run when the commitContent method of the parent dialog window is called.
+								commit : function( data )
+								{
+									data.description = this.getValue();
+								}
+						
+					});
 				return dialog;
 			} );
 
@@ -5543,7 +5188,7 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 				// Connect widget with a dialog defined earlier. So our toolbar button will open a dialog window.
 				dialog : 'chart',
 				// Based on this template a widget will be created automatically once user exists the dialog window.
-				template:'<div class="chartjs" data-chart="pie"><canvas height="200"></canvas><div class="chartjs-legend"></div></div>',
+				template:'<div class="chartjs" data-chart="percentage"><canvas height="200" width="200"></canvas><div class="chartjs-legend"></div></div>',
 				// In order to provide styles (classes) for this widget through config.stylesSet we need to explicitly define the stylable elements.
 				styleableElements: 'div',
 				// Name to be displayed in the elements path (at the bottom of CKEditor),
@@ -5577,7 +5222,7 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 
 					// It looks like Chartjs does not handle well updating charts.
 					// When hovering over updated canvas old data is picked up sometimes, so we need to always replace an old canvas.
-					var canvas = editor.document.createElement( 'canvas', { height: 200 } );
+					var canvas = editor.document.createElement( 'canvas', { height: 50,width: 50 } );
 					canvas.replace( this.element.getChild( 0 ) );
 
 					// Unify variable names with the one used in widget2chart.js.
@@ -5594,8 +5239,7 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 					// ########## RENDER CHART START ##########
 					// Prepare canvas and chart instance.
 					var i, ctx = canvas.getContext( "2d" ),
-						chart = new Chart( ctx );
-
+						chart = new Chart( ctx);
 					// Set some extra required colors by Pie/Doughnut charts.
 					// Ugly charts will be drawn if colors are not provided for each data.
 					// http://www.chartjs.org/docs/#doughnut-pie-chart-data-structure
@@ -5639,14 +5283,22 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 					// Render Pie chart and legend.
 					else if ( chartType == 'pie' ) {
 						legend.innerHTML = chart.Pie( values, {
-							animateRotate: false
+							animateRotate: true
 						} ).generateLegend();
 					}
 					// Render Doughnut chart and legend.
-					else {
+					else if( chartType == 'doughnut' ) {
 						legend.innerHTML = chart.Doughnut( values, {
-							animateRotate: false
+							animateRotate: true
 						} ).generateLegend();
+					}
+					// Render Percentage chart and legend.
+					else {
+						co = chart.Percentage( values.slice(0,1), {
+							animateRotate: true,
+						} );
+						co.description= this.data.description ;
+						legend.innerHTML = co.generateLegend();
 					}
 					// ########## RENDER CHART END ##########
 				},
