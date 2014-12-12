@@ -129,7 +129,19 @@
 									setup: function( widget ) {
 										// Set radios to the correct value based on the widget type,
 										this.setValue( widget.data.chart);
-
+									},
+									onChange: function( evt ) {
+										// Set radios to the correct value based on the widget type,
+										if(this.getValue()=='percentage'){
+											//alert(dialog.contents[0].elements[2].children[0]);
+											//alert(dialog.contents[0].elements[2].children[0].id);
+											
+											/*var length = dialog.contents[0].elements.length-1;
+											var elements = dialog.contents[0].elements.slice(2,length);
+											elements.forEach (function(element) {
+											  alert(element.children);
+											});*/
+										}
 									}
 								}
 							]
