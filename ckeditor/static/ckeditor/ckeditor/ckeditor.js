@@ -659,8 +659,8 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 [],b=0,c=a.length;b<c;b++)f[a[b]]||(e.push(a[b]),f[a[b]]=1);e.length?CKEDITOR.scriptLoader.load(e,d):setTimeout(d,0)}})();CKEDITOR.config.templates_files=[CKEDITOR.getUrl("plugins/templates/templates/default.js")];CKEDITOR.config.templates_replaceContent=!0;
 
 /*! Added by Mohamed Ali AFFES */
-(function(){CKEDITOR.plugins.add("statistics",{requires:"dialog",init:function(a){CKEDITOR.dialog.add("statistics",CKEDITOR.getUrl(this.path+"dialogs/statistics.js"));a.addCommand("statistics",new CKEDITOR.dialogCommand("statistics"));a.ui.addButton&&a.ui.addButton("Statistics",{label:a.lang.statistics.button,command:"statistics",toolbar:"doctools,100",icon:'plugins/statistics/statistics/images/icon.png'})}});var c={},f={};CKEDITOR.addStats=function(a,d){c[a]=d};CKEDITOR.getStats=function(a){return c[a]};CKEDITOR.loadStats=function(a,d){for(var e=
-[],b=0,c=a.length;b<c;b++)f[a[b]]||(e.push(a[b]),f[a[b]]=1);e.length?CKEDITOR.scriptLoader.load(e,d):setTimeout(d,0)}})();CKEDITOR.config.statistics_files=[CKEDITOR.getUrl("plugins/statistics/statistics/default.js")];CKEDITOR.config.statistics_replaceContent=!0;
+/*(function(){CKEDITOR.plugins.add("statistics",{requires:"dialog",init:function(a){CKEDITOR.dialog.add("statistics",CKEDITOR.getUrl(this.path+"dialogs/statistics.js"));a.addCommand("statistics",new CKEDITOR.dialogCommand("statistics"));a.ui.addButton&&a.ui.addButton("Statistics",{label:a.lang.statistics.button,command:"statistics",toolbar:"doctools,100",icon:'plugins/statistics/statistics/images/icon.png'})}});var c={},f={};CKEDITOR.addStats=function(a,d){c[a]=d};CKEDITOR.getStats=function(a){return c[a]};CKEDITOR.loadStats=function(a,d){for(var e=
+[],b=0,c=a.length;b<c;b++)f[a[b]]||(e.push(a[b]),f[a[b]]=1);e.length?CKEDITOR.scriptLoader.load(e,d):setTimeout(d,0)}})();CKEDITOR.config.statistics_files=[CKEDITOR.getUrl("plugins/statistics/statistics/default.js")];CKEDITOR.config.statistics_replaceContent=!0;*/
 /*! End - Added by Mohamed Ali AFFES */
 
 /*! Added by Mohamed Ali AFFES */

@@ -101,7 +101,7 @@ var CKBUILDER_CONFIG = {
 		'smiley' : 1,
 		'sourcearea' : 1,
 		'specialchar' : 1,
-		'statistics' : 1,
+		/*'statistics' : 1,*/
 		'stylescombo' : 1,
 		'tab' : 1,
 		'table' : 1,

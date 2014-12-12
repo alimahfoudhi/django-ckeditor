@@ -6,23 +6,21 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Using Statistics plugin &mdash; CKEditor Sample</title>
+	<title>Using Chart plugin &mdash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link rel="stylesheet" href="../../../samples/sample.css">
-	<meta name="ckeditor-sample-name" content="Statistics plugin">
+	<meta name="ckeditor-sample-name" content="Chart plugin">
 	<meta name="ckeditor-sample-group" content="Plugins">
 	<meta name="ckeditor-sample-description" content="Using the Magicline plugin to access difficult focus spaces.">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Using Statistics plugin
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Using Chart plugin
 	</h1>
 	<div class="description">
 		<p>
-			This sample shows the advantages of <strong>Statistics</strong> plugin
-			which is to enhance the editing process. Thanks to this plugin,
-			a circliful chart can be integrated into the editor, which gives an awesome
-			representation of simple statistics data.
+			This sample shows the advantages of <strong>Chart</strong> plugin
+			which is to enhance the editing process. The plugin serves as an example of using external JavaScript libraries in CKEditor. Thanks to this plugin, CKEditor gains a support to injecting awesome charts for graphic data representation.
 		</p>
 	</div>
 	<div>
@@ -31,7 +29,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		</label>
 		<div class="description">
 			<p>
-				This editor uses a default <strong>Statistics</strong> setup.
+				This editor uses a default <strong>Chart</strong> setup.
 			</p>
 		</div>
 		<textarea cols="80" id="editor" name="editor" rows="10">
@@ -46,13 +44,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 			CKEDITOR.replace( 'editor', {
 				//extraPlugins : 'statistics,chart',
-				extraPlugins : 'statistics,widget,lineutils,chart',
+				extraPlugins : 'widget,lineutils,chart',
 				templates_replaceContent : 'false',
 				skin : 'office2013',
 				allowedContent: true,
 				toolbar : [ 
 					[ 'Source', 'Preview', 'Templates', 'Format'],
-					[ 'Statistics', 'Chart']
+					[ 'Chart']
 					],
 			} );
 		</script>
