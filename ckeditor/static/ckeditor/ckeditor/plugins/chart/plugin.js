@@ -301,27 +301,27 @@
 						}
 						chart.Bar( data );
 						// For "Bar" type legend makes sense only with more than one dataset.
-						legend.innerHTML = '';
+						//legend.innerHTML = '';
+						legend.innerHTML = "<i><b>"+this.data.description+"</b></i>";
 					}
 					// Render Pie chart and legend.
 					else if ( chartType == 'pie' ) {
 						legend.innerHTML = chart.Pie( values, {
-							animateRotate: true
-						} ).generateLegend();
+							animateRotate: true,
+						} ).generateLegend() + "<i><b>"+this.data.description+"</b></i>";
 					}
 					// Render Doughnut chart and legend.
 					else if( chartType == 'doughnut' ) {
 						legend.innerHTML = chart.Doughnut( values, {
-							animateRotate: true
-						} ).generateLegend();
+							animateRotate: true,
+						} ).generateLegend() + "<i><b>"+this.data.description+"</b></i>";
 					}
 					// Render Percentage chart and legend.
 					else {
-						var co = chart.Percentage( values.slice(0,1), {
+						chart.Percentage( values.slice(0,1), {
 							animateRotate: true,
 						} );
-						co.description= this.data.description ;
-						legend.innerHTML = co.generateLegend();
+						legend.innerHTML = "<i><b>"+this.data.description+"</b></i>";
 					}
 					// ########## RENDER CHART END ##########
 				},
