@@ -1,7 +1,4 @@
-/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
- */
+/*! Added by Mohamed Ali AFFES */
 
 /**
  * @fileOverview Charts for CKEditor using Chart.js.
@@ -14,6 +11,7 @@
 // TODO IE8 fallback to a table maybe?
 // TODO a11y http://www.w3.org/html/wg/wiki/Correct_Hidden_Attribute_Section_v4
 ( function() {
+
 	CKEDITOR.plugins.add( 'chart', {
 		// Required plugins
 		requires: 'widget,dialog',
@@ -27,8 +25,12 @@
 			if ( typeof Chart  === 'undefined' ) {
 				// Chart library is loaded asynchronously, so we can draw anything only once it's loaded.
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/chart.min.js' ), function() {
+					/*Loading Mohamed Ali's percentage extension*/
+					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/percentage.js' ));
+					/*Drawing*/
 					plugin.drawCharts();
 				} );
+
 			}
 		},
 
@@ -47,7 +49,7 @@
 				data: ['#B33131', '#B66F2D', '#B6B330', '#71B232', '#33B22D', '#31B272', '#2DB5B5', '#3172B6', '#3232B6', '#6E31B2', '#B434AF', '#B53071']
 			};
 			// The number of rows in Edit Chart dialog window.
-			var inputRows = editor.config.chart_maxitems || 8;
+			var inputRows = editor.config.chart_maxitems || 5;
 
 			// Inject required CSS stylesheet to classic editors because the <iframe> needs it.
 			// Inline editors will ignore this, the developer is supposed to load chart.css directly on a page.
@@ -90,6 +92,7 @@
 								this.setValueOf( 'data', 'label' + j, widget.data.values[j].label );
 							}
 						}
+						this.setValueOf( 'data','description', widget.data.description  );
 					},
 					// Executed every time a dialog is closed (OK is pressed).
 					onOk : function( evt ) {
@@ -107,6 +110,7 @@
 						}
 						widget.setData( 'values', values );
 						widget.setData( 'chart', this.getValueOf( 'data', 'chart' ) );
+						widget.setData( 'description', this.getValueOf('data','description' ));
 					},
 					// Define elements in a dialog window.
 					contents: [
@@ -119,12 +123,13 @@
 									label: 'Chart type:',
 									labelLayout: 'horizontal',
 									labelStyle: 'display:block;padding: 0 6px;',
-									items: [ [ 'Bar', 'bar' ], [ 'Pie', 'pie'], [ 'Doughnut', 'doughnut' ] ],
-									'default': 'pie',
+									items: [ [ 'Percentage', 'percentage' ], [ 'Bar', 'bar' ], [ 'Pie', 'pie'], [ 'Doughnut', 'doughnut' ] ],
+									'default': 'percentage',
 									style: 'margin-bottom:10px',
 									setup: function( widget ) {
 										// Set radios to the correct value based on the widget type,
-										this.setValue( widget.data.chart );
+										this.setValue( widget.data.chart);
+
 									}
 								}
 							]
@@ -170,6 +175,20 @@
 							]
 					} );
 				}
+				dialog.contents[0].elements.push( {
+						
+								type : 'text',
+								id : 'description',
+								label : 'Description',
+								style: 'margin-top:10px',
+							//  validate : CKEDITOR.dialog.validate.notEmpty( 'The Description field cannot be empty.' ),
+								// Function to be run when the commitContent method of the parent dialog window is called.
+								commit : function( data )
+								{
+									data.description = this.getValue();
+								}
+						
+					});
 				return dialog;
 			} );
 
@@ -192,7 +211,7 @@
 				// Connect widget with a dialog defined earlier. So our toolbar button will open a dialog window.
 				dialog : 'chart',
 				// Based on this template a widget will be created automatically once user exists the dialog window.
-				template:'<div class="chartjs" data-chart="pie"><canvas height="200"></canvas><div class="chartjs-legend"></div></div>',
+				template:'<div class="chartjs" data-chart="percentage"><canvas height="200" width="200"></canvas><div class="chartjs-legend"></div></div>',
 				// In order to provide styles (classes) for this widget through config.stylesSet we need to explicitly define the stylable elements.
 				styleableElements: 'div',
 				// Name to be displayed in the elements path (at the bottom of CKEditor),
@@ -226,7 +245,7 @@
 
 					// It looks like Chartjs does not handle well updating charts.
 					// When hovering over updated canvas old data is picked up sometimes, so we need to always replace an old canvas.
-					var canvas = editor.document.createElement( 'canvas', { height: 200 } );
+					var canvas = editor.document.createElement( 'canvas', { height: 50,width: 50 } );
 					canvas.replace( this.element.getChild( 0 ) );
 
 					// Unify variable names with the one used in widget2chart.js.
@@ -243,8 +262,7 @@
 					// ########## RENDER CHART START ##########
 					// Prepare canvas and chart instance.
 					var i, ctx = canvas.getContext( "2d" ),
-						chart = new Chart( ctx );
-
+						chart = new Chart( ctx);
 					// Set some extra required colors by Pie/Doughnut charts.
 					// Ugly charts will be drawn if colors are not provided for each data.
 					// http://www.chartjs.org/docs/#doughnut-pie-chart-data-structure
@@ -288,14 +306,22 @@
 					// Render Pie chart and legend.
 					else if ( chartType == 'pie' ) {
 						legend.innerHTML = chart.Pie( values, {
-							animateRotate: false
+							animateRotate: true
 						} ).generateLegend();
 					}
 					// Render Doughnut chart and legend.
-					else {
+					else if( chartType == 'doughnut' ) {
 						legend.innerHTML = chart.Doughnut( values, {
-							animateRotate: false
+							animateRotate: true
 						} ).generateLegend();
+					}
+					// Render Percentage chart and legend.
+					else {
+						var co = chart.Percentage( values.slice(0,1), {
+							animateRotate: true,
+						} );
+						co.description= this.data.description ;
+						legend.innerHTML = co.generateLegend();
 					}
 					// ########## RENDER CHART END ##########
 				},
@@ -350,3 +376,4 @@
 		}
 	} );
 } )();
+/*! End - Added by Mohamed Ali AFFES */

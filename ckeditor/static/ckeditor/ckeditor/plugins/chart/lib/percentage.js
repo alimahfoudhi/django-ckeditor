@@ -38,7 +38,6 @@
 			var animDecimal = (easeDecimal) ? easeDecimal : 1;
 			this.clear();
 
-			//alert(this.segments.length)
 			if(this.segments.length==1){
 
 				var percentage = this.segments[0];
@@ -48,7 +47,6 @@
 					highlight: "#A8B3C5",
 					/*label: ""*/
 				};
-				//this.segments = [percentage, percentage];
 				this.addData(remaining);
 					
 			}
