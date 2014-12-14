@@ -20,6 +20,7 @@
 
 		// Load library that renders charts inside CKEditor, if Chart object is not already available.
 		beforeInit: function( editor ) {
+			var plugin = this;
 
 			// Chart library is loaded asynchronously, so we can draw anything only once it's loaded.
 			CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/chart.min.js' ), function() {
