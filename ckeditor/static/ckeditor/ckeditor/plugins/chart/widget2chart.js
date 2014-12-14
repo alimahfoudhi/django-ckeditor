@@ -48,6 +48,7 @@ if ( typeof document.addEventListener !== 'undefined' )
 
 			// Get chart information from data attributes.
 			var chartType = el.getAttribute( 'data-chart' ),
+				description = el.getAttribute( 'data-description' ),
 				values = JSON.parse( el.getAttribute( 'data-chart-value' ) );
 
 			// Malformed element, exit.
@@ -108,27 +109,33 @@ if ( typeof document.addEventListener !== 'undefined' )
 						data.datasets[0].data.push( values[i].value );
 					}
 				}
-				chart.Bar( data );
+				var barChart = chart.Bar( data );
 				// For "Bar" type legend makes sense only with more than one dataset.
-				legend.innerHTML = '';
+				//legend.innerHTML = '';
+				barChart.description = description;
+				legend.innerHTML = "<div class='chartjs-legend'><i><b>"+barChart.description+"</b></i></div>";
 			}
 			// Render Pie chart and legend.
 			else if ( chartType == 'pie' ) {
-				legend.innerHTML = chart.Pie( values, {
-					animateRotate: true
-				} ).generateLegend();
+				var pieChart = chart.Pie( values, {
+					animateRotate: true,
+				});
+				pieChart.description = description;
+				legend.innerHTML = pieChart.generateLegend()+ "<i><b>"+pieChart.description+"</b></i>";
 			}
 			// Render Doughnut chart and legend.
 			else if( chartType == 'doughnut' ) {
-				legend.innerHTML = chart.Doughnut( values, {
-					animateRotate: true
-				} ).generateLegend();
+				var doughnutChart = chart.Doughnut( values, {
+					animateRotate: true,
+				});
+				doughnutChart.description = description;
+				legend.innerHTML = doughnutChart.generateLegend()+ "<i><b>"+doughnutChart.description+"</b></i>";
 			}
 			// Render Percentage chart and legend.
 			else {
-				legend.innerHTML = chart.Percentage( values.slice(0,1), {
-					animateRotate: true
-				} ).generateLegend();
+				var percentageChart = chart.Percentage( values.slice(0,1));
+				percentageChart.description = description;
+				legend.innerHTML = percentageChart.generateLegend();
 			}
 			// ########## RENDER CHART END ##########
 		}

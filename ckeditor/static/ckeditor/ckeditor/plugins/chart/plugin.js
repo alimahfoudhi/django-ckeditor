@@ -326,16 +326,11 @@
 							}
 						}
 						var barChart = chart.Bar( data );
-						// For "Bar" type legend makes sense only with more than one dataset.
-						//legend.innerHTML = '';
 						barChart.description = this.data.description;
 						legend.innerHTML = "<div class='chartjs-legend'><i><b>"+barChart.description+"</b></i></div>";
 					}
 					// Render Pie chart and legend.
 					else if ( chartType == 'pie' ) {
-						/*legend.innerHTML = chart.Pie( values, {
-							animateRotate: true,
-						} ).generateLegend() + "<i><b>"+this.data.description+"</b></i>";*/
 						var pieChart = chart.Pie( values, {
 							animateRotate: true,
 						});
@@ -350,9 +345,6 @@
 						doughnutChart.description = this.data.description;
 						legend.innerHTML = doughnutChart.generateLegend()+ "<i><b>"+doughnutChart.description+"</b></i>";
 
-						/*legend.innerHTML = chart.Doughnut( values, {
-							animateRotate: true,
-						} ).generateLegend() + "<i><b>"+this.data.description+"</b></i>";*/
 					}
 					// Render Percentage chart and legend.
 					else {					
