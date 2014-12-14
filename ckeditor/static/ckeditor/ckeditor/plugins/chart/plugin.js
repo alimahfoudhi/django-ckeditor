@@ -65,6 +65,7 @@
 				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,
 					'<script>var chartjs_colors_json = "' + JSON.stringify(colors).replace( /\"/g, '\\"' ) + '";<\/script>' +
 						'<script src="' + CKEDITOR.getUrl( plugin.path + 'lib/chart.min.js' ) + '"><\/script>' +
+						'<script src="' + CKEDITOR.getUrl( plugin.path + 'lib/percentage.js' ) + '"><\/script>' +
 						'<script src="' + CKEDITOR.getUrl( plugin.path + 'widget2chart.js' ) + '"><\/script><\/head>' );
 			} );
 
@@ -173,10 +174,17 @@
 									width: '50px',
 									validate: function() {
 										var value = this.getValue(),
+											msg = 'Enter a valid number',
+											chartType =  this.getDialog().getContentElement('data','chart').getValue(),
 											pass = ( !value || !!( CKEDITOR.dialog.validate.number( value ) && value >= 0 ) );
+											
+										if(chartType=='percentage' && value>100){
+											msg = 'Enter a value between 0 and 100';
+											pass = false;
+										}
 
 										if ( !pass ) {
-											alert( 'Enter a valid number.' );
+											alert( msg );
 											this.select();
 										}
 
