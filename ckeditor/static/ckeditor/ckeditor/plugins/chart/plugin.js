@@ -49,6 +49,11 @@
 		// Function called on initialization of every editor instance created in the page.
 		init: function( editor ) {
 			var plugin = this;
+			// Chart library is loaded asynchronously, so we can draw anything only once it's loaded.
+			CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/chart.min.js' ), function() {
+				/*Loading Mohamed Ali's percentage extension*/
+					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/percentage.js' ));
+			} );
 			// Default hardcoded values used if config.chart_colors is not provided.
 			var colors = editor.config.chart_colors ||
 			{
