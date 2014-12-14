@@ -19,6 +19,17 @@
 		icons: 'chart',
 
 		// Load library that renders charts inside CKEditor, if Chart object is not already available.
+		beforeInit: function( editor ) {
+
+			// Chart library is loaded asynchronously, so we can draw anything only once it's loaded.
+			CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/chart.min.js' ), function() {
+				/*Loading Mohamed Ali's percentage extension*/
+					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/percentage.js' ));
+			} );
+			
+		},
+
+		// Load library that renders charts inside CKEditor, if Chart object is not already available.
 		afterInit: function( editor ) {
 			var plugin = this;
 
@@ -177,7 +188,7 @@
 											msg = 'Enter a valid number',
 											chartType =  this.getDialog().getContentElement('data','chart').getValue(),
 											pass = ( !value || !!( CKEDITOR.dialog.validate.number( value ) && value >= 0 ) );
-											
+
 										if(chartType=='percentage' && value>100){
 											msg = 'Enter a value between 0 and 100';
 											pass = false;
