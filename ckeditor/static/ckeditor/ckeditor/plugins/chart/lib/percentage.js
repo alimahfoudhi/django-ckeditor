@@ -7,6 +7,7 @@
 
 	var defaultConfig = {
 
+		showTooltips: false,
 		segmentShowStroke : true,
 		segmentStrokeColor : "#fff",
 		segmentStrokeWidth : 2,
@@ -32,8 +33,6 @@
 		},
 		draw : function(easeDecimal){
 			this.chart.ctx.font = this.options.labelFontStyle + " " + this.options.labelFontSize+"px " + this.options.labelFontFamily;
-			this.chart.ctx.fillStyle = 'black';
-			this.chart.ctx.textBaseline = 'middle';
 
 			var animDecimal = (easeDecimal) ? easeDecimal : 1;
 			this.clear();
