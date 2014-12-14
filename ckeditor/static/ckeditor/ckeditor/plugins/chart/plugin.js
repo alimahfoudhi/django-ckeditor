@@ -134,14 +134,21 @@
 									onChange: function( evt ) {
 										// Set radios to the correct value based on the widget type,
 										if(this.getValue()=='percentage'){
-											//alert(dialog.contents[0].elements[2].children[0]);
-											//alert(dialog.contents[0].elements[2].children[0].id);
-											
-											/*var length = dialog.contents[0].elements.length-1;
-											var elements = dialog.contents[0].elements.slice(2,length);
-											elements.forEach (function(element) {
-											  alert(element.children);
-											});*/
+											var myDialog =  this.getDialog(); 
+
+										for ( var j = 1; j < inputRows; j++ ) {
+											myDialog.getContentElement('data','value'+j).disable();
+											//myDialog.getContentElement('data','value'+j).setValue('')
+											myDialog.getContentElement('data','label'+j).disable();
+											//myDialog.getContentElement('data','label'+j).setValue('')
+											}
+										}else{
+											var myDialog =  this.getDialog(); 
+
+										for ( var j = 1; j < inputRows; j++ ) {
+											myDialog.getContentElement('data','value'+j).enable();
+											myDialog.getContentElement('data','label'+j).enable();
+											}
 										}
 									}
 								}
