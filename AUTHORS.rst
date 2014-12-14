@@ -20,4 +20,5 @@ Contributors
 #. `mwcz <https://github.com/mwcz>`_
 #. `tomwys <https://github.com/tomwys>`_
 #. `snbuback <https://github.com/snbuback>`_
+#. `Mohamed Ali AFFES <https://github.com/mohamed-ali-affes>`_
 #. And others `<https://github.com/**/django-ckeditor/graphs/contributors>`_

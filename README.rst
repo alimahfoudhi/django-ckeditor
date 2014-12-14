@@ -1,9 +1,7 @@
 Django CKEditor
 ===============
 
-**NOTICE: The django-ckeditor-updated 4.4.4 have been merged with django-ckeditor and released as  django-ckeditor-4.4.4.**
-
-**NOTICE 2: This newer version has different configuration than old django-ckeditor releases!**
+**NOTICE : This app is a modified version with a customized configuration than usual django-ckeditor releases!**
 
 
 **Django admin CKEditor integration.**
@@ -12,10 +10,17 @@ Provides a ``RichTextField`` and ``CKEditorWidget`` utilizing CKEditor with imag
 * This version also includes:
 #. support to django-storages (works with S3)
 #. updated ckeditor to version 4.4
-#. included all ckeditor language files to made everyone happy!
+#. a customized Chart plugin that adds support for injecting charts into CKEditor. 
 
 .. contents:: Contents
     :depth: 5
+
+Plugin Screenshots
+------------
+![Chart](/docs/img/chart-plugin-percentage.png?raw=true )
+![Chart](/docs/img/chart-plugin-bar.png?raw=true )
+![Chart](/docs/img/chart-plugin-pie.png?raw=true )
+![Chart](/docs/img/chart-plugin-doughnut.png?raw=true )
 
 Installation
 ------------
@@ -24,7 +29,7 @@ Required
 ~~~~~~~~
 #. Install or add django-ckeditor to your python path.
     
-    pip install django-ckeditor-updated
+    pip install -e git://github.com/mohamed-ali-affes/django-ckeditor
 
 #. Add ``ckeditor`` to your ``INSTALLED_APPS`` setting.
 
@@ -64,8 +69,12 @@ Optional
 #. Add a CKEDITOR_CONFIGS setting to the project's ``settings.py`` file. This specifies sets of CKEditor settings that are passed to CKEditor (see CKEditor's `Setting Configurations <http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Setting_Configurations>`_), i.e.::
 
        CKEDITOR_CONFIGS = {
-           'awesome_ckeditor': {
-               'toolbar': 'Basic',
+           'chart_tester': {
+               'toolbar': [
+                  [
+                      'Source', 'Preview', 'Chart',
+                  ],
+              ],
            },
        }
 
