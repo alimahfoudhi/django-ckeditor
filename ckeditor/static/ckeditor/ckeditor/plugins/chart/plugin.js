@@ -43,10 +43,11 @@
 		// Function called on initialization of every editor instance created in the page.
 		init: function( editor ) {
 			var plugin = this;
-			
-			/*Loading Mohamed Ali's percentage extension*/
-			CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/percentage.js' ));
-		
+			// Chart library is loaded asynchronously, so we can draw anything only once it's loaded.
+			CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/chart.min.js' ), function() {
+				/*Loading Mohamed Ali's percentage extension*/
+					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/percentage.js' ));
+			} );
 			// Default hardcoded values used if config.chart_colors is not provided.
 			var colors = editor.config.chart_colors ||
 			{
@@ -366,15 +367,16 @@
 					}
 					// Render Percentage chart and legend.
 					else {
+						var description = this.data.description;
 						// Mohamed Ali's percentage extension is loaded asynchronously, so we can draw anything only once it's loaded.
-						CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lib/percentage.js' ), function() {
-									var percentageChart = chart.Percentage( values.slice(0,1));
-									percentageChart.description = this.data.description;
-									legend.innerHTML = percentageChart.generateLegend();
-					
-						} );
-
-					}
+						CKEDITOR.scriptLoader.load(CKEDITOR.getUrl(plugin.path + 'lib/percentage.js' ), function() {
+							/**/
+							var percentageChart = chart.Percentage( values.slice(0,1));
+							percentageChart.description = description;
+							legend.innerHTML = percentageChart.generateLegend();
+							});
+						}
+						
 					// ########## RENDER CHART END ##########
 				},
 
