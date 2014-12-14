@@ -19,23 +19,8 @@ Plugin Screenshots
 ------------
 .. image:: /docs/img/chart-plugin-percentage.png?raw=true
     :alt: Bar Chart Type
-    :width: 77
-    :height: 503
-    :align: left
-.. image:: /docs/img/chart-plugin-bar.png?raw=true
-    :alt: Bar Chart Type
-    :width: 648
-    :height: 552
-    :align: left
-.. image:: /docs/img/chart-plugin-pie.png?raw=true
-    :alt: Bar Chart Type
-    :width: 682
-    :height: 547
-    :align: left
-.. image:: /docs/img/chart-plugin-doughnut.png?raw=true
-    :alt: Bar Chart Type
-    :width: 685
-    :height: 546
+    :width: 350
+    :height: 250
     :align: left
 
 
