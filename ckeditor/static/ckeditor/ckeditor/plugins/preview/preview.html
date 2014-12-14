@@ -4,9 +4,24 @@
 if ( typeof window.opener._cke_htmlToLoad == 'string' ) {
 	var doc = document;
 	doc.open();
+
+	/* Added by Mohamed Ali AFFES*/
+		/*var link = document.createElement("link");
+		css.rel = "stylesheet";
+		css.type = "text/css";
+		css.href = "../chart/chart.css";
+		doc.head.appendChild(css);
+		var js = document.createElement("script");
+		js.type = "text/javascript";
+		js.src = "../chart/lib/chart.min.js";
+		doc.head.appendChild(js);
+		js.type = "text/javascript";
+		js.src = "../chart/lib/widget2chart.js";
+		doc.head.appendChild(js);*/
+	/* End */
+	
 	doc.write( window.opener._cke_htmlToLoad );
 	doc.close();
-
 	delete window.opener._cke_htmlToLoad;
 }
 

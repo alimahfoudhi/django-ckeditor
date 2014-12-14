@@ -108,9 +108,10 @@
 							if ( value )
 								values.push( { value: parseFloat( this.getValueOf( 'data', 'value' + j ) ), label: this.getValueOf( 'data', 'label' + j ) } );
 						}
+
+						widget.setData( 'description', this.getValueOf('data','description' ));
 						widget.setData( 'values', values );
 						widget.setData( 'chart', this.getValueOf( 'data', 'chart' ) );
-						widget.setData( 'description', this.getValueOf('data','description' ));
 					},
 					// Define elements in a dialog window.
 					contents: [
@@ -238,6 +239,7 @@
 					}
 					// Chart is specified in a template, so it is available even in an empty widget.
 					this.setData( 'chart', this.element.data( 'chart' ) );
+					this.setData( 'description', this.element.data( 'description' ) );
 
 					// Pass the reference to this widget to the dialog. See "onOk" in the dialog definition, we needed widget there.
 					this.on( 'dialog', function( evt ) {
@@ -255,6 +257,10 @@
 					if ( !this.data.values )
 						return;
 
+					if ( !this.data.description ){
+						this.data.description = ""
+					}
+
 					// It looks like Chartjs does not handle well updating charts.
 					// When hovering over updated canvas old data is picked up sometimes, so we need to always replace an old canvas.
 					var canvas = editor.document.createElement( 'canvas', { height: 50,width: 50 } );
@@ -263,6 +269,7 @@
 					// Unify variable names with the one used in widget2chart.js.
 					var values = this.data.values,
 						chartType = this.data.chart,
+						description = this.data.description,
 						legend = this.element.getChild( 1 ).$;
 					canvas = canvas.$;
 
@@ -311,29 +318,40 @@
 								data.datasets[0].data.push( values[i].value );
 							}
 						}
-						chart.Bar( data );
+						var barChart = chart.Bar( data );
 						// For "Bar" type legend makes sense only with more than one dataset.
 						//legend.innerHTML = '';
-						legend.innerHTML = "<i><b>"+this.data.description+"</b></i>";
+						barChart.description = this.data.description;
+						legend.innerHTML = "<div class='chartjs-legend'><i><b>"+barChart.description+"</b></i></div>";
 					}
 					// Render Pie chart and legend.
 					else if ( chartType == 'pie' ) {
-						legend.innerHTML = chart.Pie( values, {
+						/*legend.innerHTML = chart.Pie( values, {
 							animateRotate: true,
-						} ).generateLegend() + "<i><b>"+this.data.description+"</b></i>";
+						} ).generateLegend() + "<i><b>"+this.data.description+"</b></i>";*/
+						var pieChart = chart.Pie( values, {
+							animateRotate: true,
+						});
+						pieChart.description = this.data.description;
+						legend.innerHTML = pieChart.generateLegend()+ "<i><b>"+pieChart.description+"</b></i>";
 					}
 					// Render Doughnut chart and legend.
 					else if( chartType == 'doughnut' ) {
-						legend.innerHTML = chart.Doughnut( values, {
+						var doughnutChart = chart.Doughnut( values, {
 							animateRotate: true,
-						} ).generateLegend() + "<i><b>"+this.data.description+"</b></i>";
+						});
+						doughnutChart.description = this.data.description;
+						legend.innerHTML = doughnutChart.generateLegend()+ "<i><b>"+doughnutChart.description+"</b></i>";
+
+						/*legend.innerHTML = chart.Doughnut( values, {
+							animateRotate: true,
+						} ).generateLegend() + "<i><b>"+this.data.description+"</b></i>";*/
 					}
 					// Render Percentage chart and legend.
-					else {
-						chart.Percentage( values.slice(0,1), {
-							animateRotate: true,
-						} );
-						legend.innerHTML = "<i><b>"+this.data.description+"</b></i>";
+					else {					
+						var percentageChart = chart.Percentage( values.slice(0,1));
+						percentageChart.description = this.data.description;
+						legend.innerHTML = percentageChart.generateLegend();
 					}
 					// ########## RENDER CHART END ##########
 				},
@@ -374,12 +392,16 @@
 							label: this.data.values[i].label
 						} );
 					}
+
+					data.push()
+
 					// Create the downcasted form of a widget (a simple <div>).
 					var el = new CKEDITOR.htmlParser.element( 'div', {
 						// We could pass here hardcoded "chartjs" class, but this way we would lose here all the classes applied through the Styles dropdown.
 						// (In case someone defined his own styles for the chart widget)
 						'class': element.attributes.class,
 						'data-chart': this.data.chart,
+						'data-description': this.data.description,
 						'data-chart-value': CKEDITOR.tools.htmlEncodeAttr( JSON.stringify(data) )
 					} );
 					return el;

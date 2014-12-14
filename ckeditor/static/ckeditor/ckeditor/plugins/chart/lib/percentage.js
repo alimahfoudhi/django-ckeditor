@@ -22,13 +22,15 @@
 		labelFontStyle : "normal",
 		labelFontSize : 24,
 		labelFontColor : "#666",
-		legendTemplate : "<i><b><%=description%></b></i>"
+		legendTemplate : '<div class="chartjs-legend"><i><b><%=description%></b></i></div>',
 	};
 
 	Chart.types.Doughnut.extend({
 		name: "Percentage",
+		description: "",
 		defaults : defaultConfig,
 		initialize:  function(data){
+				
 			Chart.types.Doughnut.prototype.initialize.apply(this, arguments);
 		},
 		draw : function(easeDecimal){
@@ -44,7 +46,6 @@
 					value : 100 - percentage.value,
 					color: "#E8E8E8",
 					highlight: "#A8B3C5",
-					/*label: ""*/
 				};
 				this.addData(remaining);
 					
