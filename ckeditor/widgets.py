@@ -1,3 +1,4 @@
+import os
 from django import forms
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -10,8 +11,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.forms.util import flatatt
 
 from django.utils.functional import Promise
-from django.utils.encoding import force_text
 from django.core.serializers.json import DjangoJSONEncoder
+
 
 class LazyEncoder(DjangoJSONEncoder):
     def default(self, obj):
@@ -29,7 +30,7 @@ DEFAULT_CONFIG = {
     ],
     'toolbar_Full': [
         ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
-        [ 'Link','Unlink','Anchor'],
+        ['Link', 'Unlink', 'Anchor'],
         ['Image', 'Flash', 'Table', 'HorizontalRule'],
         ['TextColor', 'BGColor'],
         ['Smiley', 'SpecialChar'], ['Source'],
@@ -69,27 +70,49 @@ class CKEditorWidget(forms.Textarea):
         # Setup config from defaults.
         self.config = DEFAULT_CONFIG.copy()
 
-        # Try to get valid config from settings.
-        configs = getattr(settings, 'CKEDITOR_CONFIGS', None)
-        if configs:
-            if isinstance(configs, dict):
-                # Make sure the config_name exists.
-                if config_name in configs:
-                    config = configs[config_name]
-                    # Make sure the configuration is a dictionary.
-                    if not isinstance(config, dict):
-                        raise ImproperlyConfigured('CKEDITOR_CONFIGS["%s"] \
-                                setting must be a dictionary type.' % \
-                                config_name)
-                    # Override defaults with settings config.
-                    self.config.update(config)
+        SETTINGS_DIR = getattr(settings, 'SETTINGS_DIR', None)
+        if SETTINGS_DIR and os.path.isfile(os.path.join(SETTINGS_DIR, 'dynamic_settings.py')):
+            # Try to get valid config from dynamic_settings.
+            import dynamic_settings
+            configs = getattr(dynamic_settings, 'CKEDITOR_CONFIGS', None)
+            if configs:
+                if isinstance(configs, dict):
+                    # Make sure the config_name exists.
+                    if config_name in configs:
+                        config = configs[config_name]
+                        # Make sure the configuration is a dictionary.
+                        if not isinstance(config, dict):
+                            raise ImproperlyConfigured('CKEDITOR_CONFIGS["%s"] \
+                                    setting must be a dictionary type.' % config_name)
+                        # Override defaults with settings config.
+                        self.config.update(config)
+                    else:
+                        raise ImproperlyConfigured("No configuration named '%s' \
+                                found in your CKEDITOR_CONFIGS setting." % config_name)
                 else:
-                    raise ImproperlyConfigured("No configuration named '%s' \
-                            found in your CKEDITOR_CONFIGS setting." % \
-                            config_name)
-            else:
-                raise ImproperlyConfigured('CKEDITOR_CONFIGS setting must be a\
-                        dictionary type.')
+                    raise ImproperlyConfigured('CKEDITOR_CONFIGS setting must be a\
+                            dictionary type.')
+
+        else:
+            # Try to get valid config from settings.
+            configs = getattr(settings, 'CKEDITOR_CONFIGS', None)
+            if configs:
+                if isinstance(configs, dict):
+                    # Make sure the config_name exists.
+                    if config_name in configs:
+                        config = configs[config_name]
+                        # Make sure the configuration is a dictionary.
+                        if not isinstance(config, dict):
+                            raise ImproperlyConfigured('CKEDITOR_CONFIGS["%s"] \
+                                    setting must be a dictionary type.' % config_name)
+                        # Override defaults with settings config.
+                        self.config.update(config)
+                    else:
+                        raise ImproperlyConfigured("No configuration named '%s' \
+                                found in your CKEDITOR_CONFIGS setting." % config_name)
+                else:
+                    raise ImproperlyConfigured('CKEDITOR_CONFIGS setting must be a\
+                            dictionary type.')
 
         extra_plugins = extra_plugins or []
 
@@ -112,5 +135,5 @@ class CKEditorWidget(forms.Textarea):
             'value': conditional_escape(force_text(value)),
             'id': final_attrs['id'],
             'config': json_encode(self.config),
-            'external_plugin_resources' : self.external_plugin_resources
+            'external_plugin_resources': self.external_plugin_resources
         }))
