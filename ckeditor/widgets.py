@@ -1,4 +1,4 @@
-import os
+from django.utils.importlib import import_module
 from django import forms
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -69,11 +69,13 @@ class CKEditorWidget(forms.Textarea):
         super(CKEditorWidget, self).__init__(*args, **kwargs)
         # Setup config from defaults.
         self.config = DEFAULT_CONFIG.copy()
+
         print 'In Wigdet init 1'
-        if settings.BASE_DIR and os.path.isfile(os.path.join(settings.BASE_DIR, 'dynamic_settings.py')):
+        # Try to get valid DYNAMIC_SETTINGS from settings.
+        DYNAMIC_SETTINGS = getattr(settings, 'DYNAMIC_SETTINGS', None)
+        if DYNAMIC_SETTINGS:
             print 'In Wigdet init 2'
-            # Try to get valid config from dynamic_settings.
-            import dynamic_settings
+            dynamic_settings = reload(import_module(settings.DYNAMIC_SETTINGS))
             configs = getattr(dynamic_settings, 'CKEDITOR_CONFIGS', None)
             print configs
             if configs:
