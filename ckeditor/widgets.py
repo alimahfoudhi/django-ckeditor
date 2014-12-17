@@ -70,8 +70,7 @@ class CKEditorWidget(forms.Textarea):
         # Setup config from defaults.
         self.config = DEFAULT_CONFIG.copy()
 
-        SETTINGS_DIR = getattr(settings, 'SETTINGS_DIR', None)
-        if SETTINGS_DIR and os.path.isfile(os.path.join(SETTINGS_DIR, 'dynamic_settings.py')):
+        if settings.BASE_DIR and os.path.isfile(os.path.join(BASE_DIR, 'dynamic_settings.py')):
             # Try to get valid config from dynamic_settings.
             import dynamic_settings
             configs = getattr(dynamic_settings, 'CKEDITOR_CONFIGS', None)
