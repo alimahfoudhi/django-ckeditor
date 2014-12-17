@@ -69,7 +69,7 @@ class CKEditorWidget(forms.Textarea):
         super(CKEditorWidget, self).__init__(*args, **kwargs)
         # Setup config from defaults.
         self.config = DEFAULT_CONFIG.copy()
-
+        print 'In Wigdet init'
         if settings.BASE_DIR and os.path.isfile(os.path.join(settings.BASE_DIR, 'dynamic_settings.py')):
             # Try to get valid config from dynamic_settings.
             import dynamic_settings
