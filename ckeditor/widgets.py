@@ -69,12 +69,14 @@ class CKEditorWidget(forms.Textarea):
         super(CKEditorWidget, self).__init__(*args, **kwargs)
         # Setup config from defaults.
         self.config = DEFAULT_CONFIG.copy()
-        print 'In Wigdet init'
+        print 'In Wigdet init 1'
         if settings.BASE_DIR and os.path.isfile(os.path.join(settings.BASE_DIR, 'dynamic_settings.py')):
+            print 'In Wigdet init 2'
             # Try to get valid config from dynamic_settings.
             import dynamic_settings
             configs = getattr(dynamic_settings, 'CKEDITOR_CONFIGS', None)
             if configs:
+                print 'In Wigdet init 3'
                 if isinstance(configs, dict):
                     # Make sure the config_name exists.
                     if config_name in configs:
@@ -93,6 +95,7 @@ class CKEditorWidget(forms.Textarea):
                             dictionary type.')
 
         else:
+            print 'In Wigdet init 4'
             # Try to get valid config from settings.
             configs = getattr(settings, 'CKEDITOR_CONFIGS', None)
             if configs:
