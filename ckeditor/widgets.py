@@ -75,6 +75,7 @@ class CKEditorWidget(forms.Textarea):
             # Try to get valid config from dynamic_settings.
             import dynamic_settings
             configs = getattr(dynamic_settings, 'CKEDITOR_CONFIGS', None)
+            print configs
             if configs:
                 print 'In Wigdet init 3'
                 if isinstance(configs, dict):
