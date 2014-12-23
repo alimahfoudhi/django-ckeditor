@@ -54,6 +54,7 @@ var CKBUILDER_CONFIG = {
 		'basicstyles' : 1,
 		'bidi' : 1,
 		'blockquote' : 1,
+		'cellborder' : 1,
 		'chart' : 1,
 		'clipboard' : 1,
 		'colorbutton' : 1,

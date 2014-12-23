@@ -662,6 +662,7 @@ b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on(
 CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'plugins/lineutils/plugin.js' ));
 CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'plugins/widget/plugin.js' ));
 CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'plugins/chart/plugin.js' ));
+CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'plugins/cellborder/plugin.js' ));
 /*! Added by Mohamed Ali AFFES */
 
 CKEDITOR.plugins.add("menu",{requires:"floatpanel",beforeInit:function(g){for(var h=g.config.menu_groups.split(","),m=g._.menuGroups={},l=g._.menuItems={},a=0;a<h.length;a++)m[h[a]]=a+1;g.addMenuGroup=function(b,a){m[b]=a||100};g.addMenuItem=function(a,c){m[c.group]&&(l[a]=new CKEDITOR.menuItem(this,a,c))};g.addMenuItems=function(a){for(var c in a)this.addMenuItem(c,a[c])};g.getMenuItem=function(a){return l[a]};g.removeMenuItem=function(a){delete l[a]}}});
