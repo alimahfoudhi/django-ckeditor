@@ -1,0 +1,148 @@
+﻿<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>ImageCrop plugin</title>
+<link href="styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>ImageCrop Plugin for CKEditor</h1>
+
+<h2>Introduction</h2>
+<p>This is a plugin for <a href="http://www.ckeditor.com">CKEditor</a> that allows to easily crop and resize the images when they are uploaded to the editor.</p>
+
+<h3 id="contact">Author:</h3>
+<p><a href="mailto:soporte@uritec.es">Uritec SL</a></p>
+
+<h3>Version history: </h3>
+<ol>
+	<li>1.0: 18-June-2014. First public version.</li>
+	<li>1.0.1: 29-June-2014. Format selector didn't work correctly. Improve translations. </li>
+	<li>1.0.2: Adjust CSS to avoid conflicts with existing classes in the page. Force lowercase in the filenames. </li>
+	<li>1.1.0: 12-October-2014. Big code reorganization. <br>
+		Usage of the "Pica" library for high quality image resizing<br>
+		Enable editing of existing images
+		</li>
+	<li>1.2.0: 26-November-2014 Define maximum dimensions so that images are automatically resized even if the user just presses OK. <br>
+			Handle correctly multiple images added at once
+		</li>
+	<li>1.2.1: Bug fixes for the configuration changes in 1.2.0<br>
+			Don't enable the context menu if the image is a cross-domain that can't be edited<br>
+			Updated Pica to 1.0.7
+		</li>
+	<li>1.2.2: 2-December-2014. Fixed bug to enable editing of existing base64 images (this feature is discouraged as it's really bad for the performance of the final page and it has known bugs in CKEditor)</li>
+
+</ol>
+
+<h2>Installation</h2>
+<h3>1. Copying the files</h3>
+<p>Extract the contents of the zip in you plugins directory, so it ends up like
+    this<br>
+    <!--<img src="installation.png" alt="Screenshot of installation" width="311" height="346" longdesc="#install">-->
+    </p>
+<pre id="--install">
+ckeditor\
+	...
+	images\
+	lang\
+	plugins\
+		...
+		imagecrop\
+			plugin.js
+			dialog\
+			docs\
+			lang\
+		...
+	skins\
+	themes\
+</pre>
+<h3>2. Adding it to CKEditor</h3>
+<p>Now add the plugin in your <em>config.js</em> or custom js configuration file like you did for the SimpleUploads, adding a comma:
+<code>config.extraPlugins='simpleuploads,imagecrop'; </code>
+</p>
+
+<h3>3. Configuration</h3>
+<p>The configuration is provided as a single "imagecrop" object in the configuration of each editor, example:</p>
+<code>// Configuration for ImageCrop
+config.imagecrop = {
+	cropsizes : [
+		{width:120, height:120, title:"120px square", name:"Thumbnail"},
+		{width:400, height:300, title:"400 * 300", name:"Content picture"},
+		{width:960, height:350, title:"960 * 350", name:"Big header"},
+		{width:0, height:0, title:"No restrictions", name:"Free crop"}
+		],
+
+	formats : [
+		{ title:"JPG - Low quality", value:"jpg60"},
+		{ title:"JPG - Normal quality", value:"jpg80", attributes:"selected"},
+		{ title:"JPG - High quality", value:"jpg90"},
+		{ title:"PNG (for texts)", value:"png"}
+		],
+
+	maximumDimensions : {width:1024, height:1024}
+};</code>
+
+
+<p>The <b>cropsizes</b> property defines the cropping sizes that you want to allow, you must add an array of objects. Each object has four properties:<br>
+"width": Final width of the resized area<br>
+"height": Final height of the resized area<br>
+"title": Tooltip that will be shown while hovering the button<br>
+"name": Text of the button that the user will see</p>
+<code>cropsizes : [
+	{width:80, height:80, title:"small thumbail (80x80)", name:"Thumbnail"},
+	{width:400, height:300, title:"400 * 300", name:"Content picture"},
+	{width:0, height:0, title:"No restrictions", name:"Free crop"}
+	]
+</code>
+<p>You can define as many options as you want, each one will be available as a button for the user to quickly select the final dimensions of the image.<br>
+If width and height are zero the user will be able to crop the image at any size</p>
+
+<p>After selecting the cropped area, the user has the option to select the quality that will be used to save the image, you can modify the available options with the <b>formats</b> property:</p>
+<code>formats : [
+	{ title:"JPG - Low quality", value:"jpg60"},
+	{ title:"JPG - Normal quality", value:"jpg80", attributes:"selected"},
+	{ title:"JPG - High quality", value:"jpg90"},
+	{ title:"PNG (for texts)", value:"png"}
+	],
+</code>
+<p>At the moment the maximum set of options is limited to the four ones provided above, you can remove any one that you don't like or change the default one</p>
+
+<p>Finally, if the user presses OK on the dialog without cropping the image you can force it to be resized to a maximum width and height (preserving the ratio) with the <b>maximumDimensions</b> setting</p>
+<code>maximumDimensions : {width:1024, height:1024}</code>
+
+
+<h3>4. Use it</h3>
+<p>Clear your cache and reload your editor. <br>
+Now add an image (drag&amp;drop, take a screenshot and paste it, use the Upload button, ...), and the cropping dialog will popup:</p>
+<ul>
+	<li>If you just press OK then it will be uploaded without changes</li>
+	<li>If you select a size, then the cropping rectangle will appear that allows to select the area of interest in the picture<br>
+	By pressing Crop you can finally select the quality according to the options that you have allowed</li>
+</ul>
+
+<h3>5. Translations</h3>
+<p>To add a new translation open plugin.js and search for "translations", it's at line 6 and add your language (the example is based on adding Polish ('pl')
+  <code>    // translations
+    lang : 'en,es',</code>
+to<code>    // translations
+    lang : 'en,es,pl',</code></p>
+<p>
+Then in the lang folder copy the en.js to pl.js, edit that file and in the first line set your language:
+<code>CKEDITOR.addPluginLang( "imagecrop", "pl",</code>
+and finally, translate all the text between quotes :-)</p>
+<p>If you send it back to us, we will include it in the next versions.</p>
+
+<!--
+<h2>Final notes</h2>
+-->
+
+<h2>Disclaimers</h2>
+ImageCrop plugin is &copy; Uritec S.L.<br>
+SimpleUploads plugin is &copy; Alfonso Martínez de Lizarrondo<br>
+CKEditor is &copy; CKSource<br>
+jQuery is &copy; The jQuery Foundation.<br>
+jCrop is &copy; Tapmodo Interactive LLC<br>
+Pica is &copy; Vitaly Puzrin<br>
+</body>
+</html>
