@@ -18,11 +18,11 @@
         // The plugin initialization logic goes inside this method.
         // http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.pluginDefinition.html#init
         init: function( editor ) {
-            var borderouter = ( editor.config.borderTypeList || [ 'border_bottom:border bottom:border-bottom:1px solid black',
-                    'border_top:border top:border-top:1px solid black',
-                    'border_right:border right:border-right:1px solid black',
-                    'border_left:border left:border-left:1px solid black',
-                    'border_double_bottom:border double bottom:border-bottom:3px double black'] ),
+            var borderouter = ( editor.config.borderTypeList || [ 'border_bottom:border bottom:border-bottom:3px solid #00A3DF',
+                    'border_top:border top:border-top:3px solid #00A3DF',
+                    'border_right:border right:border-right:3px solid #00A3DF',
+                    'border_left:border left:border-left:3px solid #00A3DF',
+                    'border_double_bottom:border double bottom:border-bottom:3px double #00A3DF'] ),
                 plugin = this,
                 items = {},
                 parts,
@@ -128,7 +128,7 @@
             items.border.style = new CKEDITOR.style( {
                 element: 'td',
                 attributes: {
-                    style:  'border: 1px solid black',
+                    style:  'border: 3px solid #00A3DF',
                 }
             } );
 
@@ -160,7 +160,13 @@
                 }
             } );
         },
-
+        // Executed when CKEditor loads content, when switching from source to wysiwyg mode. Makes HTML content a widget.
+        upcast: function( editor ) {
+            alert('kkk')
+            /*editor.execCommand( 'border', 'border_bottom')*/
+        
+            editor.applyStyle( element.style );
+        },
         // Gets the bordertype for the current editor selection.
         // @param {CKEDITOR.editor} editor
         // @returns {CKEDITOR.dom.element} The bordertype element, if any.
