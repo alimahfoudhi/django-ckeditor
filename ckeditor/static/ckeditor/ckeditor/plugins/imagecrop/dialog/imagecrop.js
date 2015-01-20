@@ -51,6 +51,9 @@ w.imageCrop = imageCrop;
 			var ancho = $(this).data("ancho"),
 				alto = $(this).data("alto");
 
+			/*if ($(this).data("resize")){
+				allowResize = $(this).data("resize");
+			}*/
 			allowResize = $(this).data("resize");
 
 			if ((ancho && ancho > FichAncho) && (alto && alto > FichAlto) ) {
@@ -365,7 +368,7 @@ w.imageCrop = imageCrop;
 			}
 			if (maximums.height && maximums.height<alto)
 			{
-				alto = maximums.maxHeight;
+				alto = maximums.height;
 				ancho = Math.round(FichAncho * (maximums.height/FichAlto));
 			}
 
@@ -378,6 +381,7 @@ w.imageCrop = imageCrop;
 			};
 			sizes = "_" + ancho + "x" + alto;
 
+			
 			CropAndResize(originalImage, recorteActivo, ancho, alto, function(canvas) {
 				// By default we convert to jpg80
 				var formato = "jpg80";
@@ -666,7 +670,5 @@ w.imageCrop = imageCrop;
 
 		preview.show();
 	}
-
-
 
 })(window);
