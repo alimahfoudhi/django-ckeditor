@@ -51,10 +51,8 @@ w.imageCrop = imageCrop;
 			var ancho = $(this).data("ancho"),
 				alto = $(this).data("alto");
 
-			/*if ($(this).data("resize")){
-				allowResize = $(this).data("resize");
-			}*/
 			allowResize = $(this).data("resize");
+			imageCrop.className = $(this).data("class");
 
 			if ((ancho && ancho > FichAncho) && (alto && alto > FichAlto) ) {
 				alert( lang.imageTooSmall.replace("{0}", ancho).replace("{1}", alto) );
@@ -160,8 +158,7 @@ w.imageCrop = imageCrop;
 		var aSizes = (config && config.cropsizes) || [{title:"free cropping", name:"No crops defined"}];
 		for(i = 0; i<aSizes.length; i++){
 			var size = aSizes[i];
-			cropsizes += "<a class='cke_dialog_ui_button' href='#' data-resize='" + (size.resize || "true") + "' data-ancho='" + (size.width || "") + "' data-alto='" + (size.height || "") +
-					"' title='" + (size.title || "") + "'><span class='cke_dialog_ui_button'>" + (size.name || i) + "</span></a>";
+			cropsizes += "<a class='cke_dialog_ui_button' href='#' data-resize='" + (size.resize || "true") + "' data-ancho='" + (size.width || "") + "' data-alto='" + (size.height || "") + "' data-class='" + (size.class || "") + "' title='" + (size.title || "") + "'><span class='cke_dialog_ui_button'>" + (size.name || i) + "</span></a>";
 		}
 
 		var formats = "";
@@ -296,17 +293,6 @@ w.imageCrop = imageCrop;
 		tmpCanvas = null;
 		$("#" + IdPrefix + "_tamPreview span").hide().text("");
 
-		/*
-			var margen = laImagen.offset.left;
-			var maxAncho = $(window).width() - margen * 2;
-			var maxAlto = $(window).height() - (laImagen.offset.top + margen);
-		*/
-		/*
-			var maxAncho = $(window).width() - 250;
-			var maxAlto =  $(window).height() - 300;
-
-			cambiarEscala(ReescalarImagen(FichAncho, FichAlto, maxAncho, maxAlto));
-		*/
 		cambiarEscala(1);
 	};
 
@@ -331,7 +317,7 @@ w.imageCrop = imageCrop;
 
 		// The preview was already created and ready to use
 		if (imgPreview.length>0)
-		{
+		{	
 			callback(imgPreview[0].src, getNewName(originalName, sizes, formato));
 			return;
 		}
@@ -381,7 +367,6 @@ w.imageCrop = imageCrop;
 			};
 			sizes = "_" + ancho + "x" + alto;
 
-			
 			CropAndResize(originalImage, recorteActivo, ancho, alto, function(canvas) {
 				// By default we convert to jpg80
 				var formato = "jpg80";
@@ -390,7 +375,7 @@ w.imageCrop = imageCrop;
 			});
 			return;
 		}
-
+		imageCrop.className = "";
 		// no changes have been done here
 		callback(null, null);
 	};
@@ -401,7 +386,6 @@ w.imageCrop = imageCrop;
 		canvas.width = srcImag.width;
 		canvas.height = srcImag.height;
 		canvas.getContext("2d").drawImage(srcImag, 0, 0);
-
 		return {
 			image : generateDataUrl(canvas, format),
 			name : getNewName(name, "", format)
@@ -508,13 +492,12 @@ w.imageCrop = imageCrop;
 
 			if (recorteActivo)
 				jcrop_api.setSelect([recorteActivo.x, recorteActivo.y, recorteActivo.x2, recorteActivo.y2]);
+				/*jcrop_api.setClass("da3dou3");*/
 			else {
-				jcrop_api.animateTo([0, 0, recorteDeseado.ancho || 50, recorteDeseado.alto || 50]);
+				jcrop_api.animateTo([0, 0, recorteDeseado.ancho || 100, recorteDeseado.alto || 100]);
 			}
 		});
 	}
-
-
 
 	function showCoords(c) {
 		$("#" + IdPrefix + "_recorteAncho").text(c.w.toFixed());
@@ -550,7 +533,6 @@ w.imageCrop = imageCrop;
 
 		return escalado;
 	}
-
 
 	/**
 		Given a Canvas and a string format returns a string with the data URL of the contents in that format
@@ -616,6 +598,7 @@ w.imageCrop = imageCrop;
 		var height = Math.round(recorteActivo.h);
 		cropCanvas.width = width;
 		cropCanvas.height = height;
+
 		cropCanvas.getContext("2d").
 			drawImage(src, Math.round(recorteActivo.x), Math.round(recorteActivo.y), width, height, 0, 0, width, height);
 

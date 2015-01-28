@@ -425,6 +425,7 @@ function receivedUrl(fileUrl, data, editor, el, attribute)
 
 		img.data( 'cke-saved-src', fileUrl);
 		img.setAttribute( 'src', fileUrl);
+		img.setAttribute( 'class', data.image.className);
 
 		// wait to replace until the image is loaded to prevent flickering
 		img.on("load", function(e) {
@@ -1348,6 +1349,10 @@ CKEDITOR.plugins.simpleuploads = {
 		if (!element)
 			return;
 
+		if(evData.image &&  imageCrop){
+			evData.image.className = imageCrop.className;
+		}
+
 		if (count == 1)
 		{
 			var selection = editor.getSelection(),
@@ -1708,6 +1713,7 @@ function checkLoadedImage(img, editor, el, name)
 	img.replace( el );
 	img.setAttribute("width", img.$.width);
 	img.setAttribute("height", img.$.height);
+	/*img.setAttribute("class", "full--image");*/
 
 	editor.fire('simpleuploads.finishedUpload', { name: name, element: img } );
 
